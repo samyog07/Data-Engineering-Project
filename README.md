@@ -58,7 +58,20 @@ Fields collected:
 < 50,000	Excellent
 < 100,000	Good
 100,000+	Fair
+ 
+ Data Collection Script
 
+        The scraper is located in:
+
+        scripts/classiccars_pipeline.py
+
+        This script performs:
+        
+        a. Web scraping of classic car listings from classiccars.com
+        b. Extraction of vehicle attributes such as year, make, model, price, mileage, and condition
+        c. Dataset creation in CSV format
+        d. Feature engineering to derive vehicle condition categories
+   
 3. Data Pipeline
 
 The cleaned dataset is ingested into Azure Data Factory, which orchestrates the data pipeline.
