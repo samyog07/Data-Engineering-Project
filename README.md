@@ -1,16 +1,22 @@
-## System Architecture
+*******Project Title********
+# Classic Car Market Data Pipeline and Price Prediction # 
+
+## System Architecture overview
 
 This project builds an end-to-end data pipeline to collect, process, and analyze classic car market data from Classiccar.com website.
 
-# Pipeline workflow:
+Web Scraping (Python + BeautifulSoup)
+        ↓
+Raw Dataset (CSV)
+        ↓
+Data cleaning (Feature engineering)
+        ↓
+Azure Data Factory Pipeline
+        ↓
+Azure SQL Database
+        ↓
+Machine Learning Price Prediction Model
 
-Web Scraping → Data Cleaning → Azure Data Factory → Azure SQL Database → Machine Learning Model
-
-*******Project Title********
-# Classic Car Market Data Pipeline and Price Prediction
-* Overview *
-
-# This project builds an end-to-end data pipeline to collect, process, and analyze classic car market listings.
 
 # The goal of the project is to:
 
@@ -22,13 +28,12 @@ Web Scraping → Data Cleaning → Azure Data Factory → Azure SQL Database →
 
 - develop a machine learning model to estimate vehicle values
 
-# Data Source
+## Project workflow
+1. Data Collection
 
-Vehicle listings were scraped from:
+Vehicle listings are scraped from classiccars.com using Python and BeautifulSoup.
 
-classiccars.com
-
-# The dataset includes:
+Fields collected:
 
 -Year
 
@@ -44,21 +49,45 @@ classiccars.com
 
 -Location
 
--Condition
+2.Feature Engineering
 
-# Project Architecture
-Web Scraping (Python + BeautifulSoup)
-        ↓
-Raw Dataset (CSV)
-        ↓
-Feature Engineering
-        ↓
-Azure Data Factory Pipeline
-        ↓
-Azure SQL Database
-        ↓
-Machine Learning Price Prediction Model
+-Vehicle condition was standardized using odometer ranges:
 
+-Mileage	Condition
+< 10,000	Concourse
+< 50,000	Excellent
+< 100,000	Good
+100,000+	Fair
+
+3. Data Pipeline
+
+The cleaned dataset is ingested into Azure Data Factory, which orchestrates the data pipeline.
+
+Pipeline tasks:
+
+Data ingestion
+
+Transformation
+
+Loading into Azure SQL Database
+
+4. Data Storage
+
+The processed data is stored in Azure SQL tables for querying and downstream analysis.
+
+5. Machine Learning Model
+
+The dataset is used to train a price prediction model that estimates classic car market value based on vehicle attributes.
+
+## Skills Demonstrated
+
+• Web scraping with Python  
+• Data cleaning and feature engineering  
+• Cloud ETL pipeline design  
+• Azure Data Factory orchestration  
+• SQL data storage  
+• Machine learning modeling  
+• End-to-end data pipeline development
 
 # Technologies Used
 
@@ -76,15 +105,13 @@ Machine Learning Price Prediction Model
 
 -Machine Learning
 
-# Feature Engineering
+# Project Screenshot
 
--Vehicle condition was standardized using odometer ranges:
+# Business Problem
 
--Mileage	Condition
-< 10,000	Concourse
-< 50,000	Excellent
-< 100,000	Good
-100,000+	Fair
+Classic car values fluctuate significantly based on condition, rarity, and market demand.
+
+This project builds a data pipeline that collects real marketplace listings and uses machine learning to estimate vehicle market values.
 
 # Future Improvements
 
