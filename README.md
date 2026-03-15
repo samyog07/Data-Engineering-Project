@@ -1,5 +1,10 @@
-# Data-Engineering-Project
-Using Python scrape the data from classiccars.com , create a data pipeline in Azure data factory to load it into data warehouse and visualize the data.
+## System Architecture
+
+This project builds an end-to-end data pipeline to collect, process, and analyze classic car market data from Classiccar.com website.
+
+# Pipeline workflow:
+
+Web Scraping → Data Cleaning → Azure Data Factory → Azure SQL Database → Machine Learning Model
 
 *******Project Title********
 # Classic Car Market Data Pipeline and Price Prediction
