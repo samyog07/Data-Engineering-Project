@@ -1,91 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
-import requests
-from bs4 import BeautifulSoup
-import pandas as pd
-import time
-import random
-
-def scrape_vehicle_details(vehicle_url):
-    """Scrape details from an individual vehicle listing."""
-    try:
-        response = requests.get(vehicle_url)
-        soup = BeautifulSoup(response.content, "html.parser")
-
-        # Extract details from the 'Vehicle Details' section
-        details = {
-            "Year": soup.select_one("li.dt-start span.gray").get_text(strip=True) if soup.select_one("li.dt-start span.gray") else "N/A",
-            "Make": soup.select_one("li.p-manufacturer span.gray").get_text(strip=True) if soup.select_one("li.p-manufacturer span.gray") else "N/A",
-            "Model": soup.select_one("li.p-model span.gray").get_text(strip=True) if soup.select_one("li.p-model span.gray") else "N/A",
-            "Transmission": soup.select_one("li.p-transmission span.gray").get_text(strip=True) if soup.select_one("li.p-transmission span.gray") else "N/A",
-            "Odometer": soup.select_one("li.p-odometer span.gray").get_text(strip=True) if soup.select_one("li.p-odometer span.gray") else "N/A",
-            "Price": soup.select_one("li.p-price span.red").get_text(strip=True) if soup.select_one("li.p-price span.red") else "N/A",
-            "Location": soup.select_one("li.p-address span.gray").get_text(strip=True) if soup.select_one("li.p-address span.gray") else "N/A",
-            "Condition": soup.select_one("li.p-condition span.gray").get_text(strip=True) if soup.select_one("li.p-condition span.gray") else "N/A",
-        }
-        return details
-    except Exception as e:
-        print(f"Error scraping {vehicle_url}: {e}")
-        return None
-
-def scrape_listings(base_url):
-    """Scrape all vehicle listings across all pages."""
-    all_data = []
-    page_number = 1
-    while True:
-        try:
-            url = f"{base_url}?page={page_number}"
-            print(f"Scraping page {page_number}: {url}")
-            response = requests.get(url)
-            soup = BeautifulSoup(response.content, "html.parser")
-            
-            # Find all individual listing links
-            listing_links = [
-                "https://classiccars.com" + a["href"]
-                for a in soup.select(".panel-mod a")
-                if "href" in a.attrs
-            ]
-            print(f"Found {len(listing_links)} listings on page {page_number}.")
-
-            if not listing_links:
-                print("No more listings found. Ending scrape.")
-                break
-            
-            # Scrape each individual listing
-            for link in listing_links:
-                details = scrape_vehicle_details(link)
-                if details:
-                    all_data.append(details)
-
-            page_number += 1
-            # Random delay to avoid detection
-            time.sleep(random.uniform(1, 3))
-        except Exception as e:
-            print(f"Error scraping page {page_number}: {e}")
-            break
-
-    return all_data
-
-def main():
-    base_url = "https://classiccars.com/listings/find/1920-2000"
-    data = scrape_listings(base_url)
-
-    # Save data to CSV
-    df = pd.DataFrame(data)
-    df.to_csv("classic_cars_full.csv", index=False)
-    print(f"Scraping complete! Data saved to 'classic_cars_full.csv'.")
-
-if __name__ == "__main__":
-    main()
-
-
-# In[2]:
-
-
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
@@ -147,7 +59,7 @@ def scrape_listings(base_url):
                 details = scrape_vehicle_details(link)
                 if details:
                     all_vehicle_data.append(details)
-                time.sleep(2)  # Be polite and avoid overloading the server
+                time.sleep(2)
 
             page_num += 1
 
@@ -178,10 +90,7 @@ if __name__ == "__main__":
     main()
 
 
-# In[5]:
-
-
-import pandas as pd
+# Feature engineering section
 
 # Load the data from the CSV file
 data = pd.read_csv("Updated_Classic_Cars_Data.csv")
@@ -197,6 +106,7 @@ def update_condition(Odometer):
     else:
         return "Fair"
 
+
 # Apply the function to the 'odometer' column and update the 'condition' column
 data['condition'] = data['Odometer'].apply(update_condition)
 
@@ -204,6 +114,3 @@ data['condition'] = data['Odometer'].apply(update_condition)
 data.to_csv("Updated_Classic_Cars_Data_with_Conditions.csv", index=False)
 
 print("Condition column updated and saved to 'Updated_Classic_Cars_Data_with_Conditions.csv'")
-
-
-# In[ ]:
