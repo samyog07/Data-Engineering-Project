@@ -84,6 +84,20 @@ Transformation
 
 Loading into Azure SQL Database
 
+        # Azure Data Factory Pipeline
+
+        The project uses Azure Data Factory to orchestrate the ETL pipeline.
+
+        Pipeline tasks include:
+        
+        • Ingesting scraped CSV data  
+        • Transforming vehicle data  
+        • Loading processed data into Azure SQL Database  
+        
+        Pipeline definition is available here:
+        
+        azure_data_factory/pipelines/classic_car_pipeline.json
+
 4. Data Storage
 
 The processed data is stored in Azure SQL tables for querying and downstream analysis.
