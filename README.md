@@ -96,7 +96,7 @@ Loading into Azure SQL Database
         
         Pipeline definition is available here:
         
-        azure_data_factory/pipelines/classic_car_pipeline.json
+        azure_data_factory/pipeline.json
 
 4. Data Storage
 
